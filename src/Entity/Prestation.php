@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PrestationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -28,6 +30,9 @@ class Prestation
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    #[ORM\OneToMany(mappedBy: 'name', targetEntity: Gategories::class)]
+    private Collection $gategories;
+
     /**
      * Ajoute la date lors de la creation / modification d'un prestation
      */
@@ -35,6 +40,7 @@ class Prestation
     {
         $this->createdAt = new DateTime();
         $this->updatedAt = new DateTime();
+        $this->gategories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -74,6 +80,36 @@ class Prestation
     public function setUserId(?User $user_id): self
     {
         $this->user = $user_id;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Gategories>
+     */
+    public function getGategories(): Collection
+    {
+        return $this->gategories;
+    }
+
+    public function addGategory(Gategories $gategory): self
+    {
+        if (!$this->gategories->contains($gategory)) {
+            $this->gategories->add($gategory);
+            $gategory->setName($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGategory(Gategories $gategory): self
+    {
+        if ($this->gategories->removeElement($gategory)) {
+            // set the owning side to null (unless already changed)
+            if ($gategory->getName() === $this) {
+                $gategory->setName(null);
+            }
+        }
 
         return $this;
     }
