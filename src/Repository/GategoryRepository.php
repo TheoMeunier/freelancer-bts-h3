@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\Gategories;
+use App\Entity\Gategory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Gategories>
+ * @extends ServiceEntityRepository<Gategory>
  *
- * @method Gategories|null find($id, $lockMode = null, $lockVersion = null)
- * @method Gategories|null findOneBy(array $criteria, array $orderBy = null)
- * @method Gategories[]    findAll()
- * @method Gategories[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Gategory|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Gategory|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Gategory[]    findAll()
+ * @method Gategory[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class GategoriesRepository extends ServiceEntityRepository
+class GategoryRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Gategories::class);
+        parent::__construct($registry, Gategory::class);
     }
 
-    public function save(Gategories $entity, bool $flush = false): void
+    public function save(Gategory $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class GategoriesRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Gategories $entity, bool $flush = false): void
+    public function remove(Gategory $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class GategoriesRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Gategories[] Returns an array of Gategories objects
+//     * @return Gategory[] Returns an array of Gategory objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class GategoriesRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Gategories
+//    public function findOneBySomeField($value): ?Gategory
 //    {
 //        return $this->createQueryBuilder('g')
 //            ->andWhere('g.exampleField = :val')

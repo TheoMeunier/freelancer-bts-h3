@@ -37,16 +37,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private string $password;
 
     #[ORM\Column(type: 'boolean')]
-    private $isVerified = false;
+    private bool $isVerified = false;
 
-    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Prestation::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Prestation::class)]
     private Collection $prestations;
+
+    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Like::class)]
+    private Collection $likes;
 
     public function __construct()
     {
         $this->createdAt = new DateTime();
         $this->updatedAt = new DateTime();
         $this->prestations = new ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -153,7 +157,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->prestations->contains($prestation)) {
             $this->prestations->add($prestation);
-            $prestation->setUserId($this);
+            $prestation->setUser($this);
         }
 
         return $this;
@@ -163,8 +167,38 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->prestations->removeElement($prestation)) {
             // set the owning side to null (unless already changed)
-            if ($prestation->getUserId() === $this) {
-                $prestation->setUserId(null);
+            if ($prestation->getUser() === $this) {
+                $prestation->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Like>
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(Like $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes->add($like);
+            $like->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(Like $like): self
+    {
+        if ($this->likes->removeElement($like)) {
+            // set the owning side to null (unless already changed)
+            if ($like->getClient() === $this) {
+                $like->setClient(null);
             }
         }
 

@@ -1,7 +1,7 @@
 .PHONY: help
 .DEFAULT_GOAL = help
 
-dc = docker-compose
+dc = docker compose
 de = $(dc) exec
 composer = $(de) php memory_limit=1 /usr/local/bin/composer
 
