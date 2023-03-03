@@ -9,7 +9,6 @@
 import './styles/style.scss'
 
 // import boostrap
-import * as mdb from 'mdb-ui-kit';
 import '@popperjs/core';
 import 'bootstrap';
 
