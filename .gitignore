@@ -10,6 +10,7 @@
 /vendor/
 /node_modules
 /public/build
+/public/upload
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###
