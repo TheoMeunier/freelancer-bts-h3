@@ -49,6 +49,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     #[ORM\OneToMany(mappedBy: 'client', targetEntity: Like::class)]
     private Collection $likes;
 
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?InformationUser $informationUser = null;
+
     public function __construct()
     {
         $this->createdAt = new DateTime();
@@ -231,5 +234,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     public function setEmailAuthCode(string $authCode): void
     {
         $this->authCode = $authCode;
+    }
+
+    public function getInformationUser(): ?InformationUser
+    {
+        return $this->informationUser;
+    }
+
+    public function setInformationUser(?InformationUser $informationUser): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($informationUser === null && $this->informationUser !== null) {
+            $this->informationUser->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($informationUser !== null && $informationUser->getUser() !== $this) {
+            $informationUser->setUser($this);
+        }
+
+        $this->informationUser = $informationUser;
+
+        return $this;
     }
 }

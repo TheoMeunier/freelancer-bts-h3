@@ -3,7 +3,12 @@
 {% block title %}Hello PerstationController!{% endblock %}
 
 {% block body %}
-    <h1>{{ prestation.title}}</h1>
+    <div class="d-flex justify-content-center align-items-center flex-column">
+        <img src="/upload/{{ prestation.image }}" alt="{{ prestation.title}}" width="650">
+        <h1 class="mt-2">{{ prestation.title}}</h1>
+    </div>
 
-
+    <div>
+        {{ prestation.content }}
+    </div>
 {% endblock %}

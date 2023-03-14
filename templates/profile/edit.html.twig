@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProfileController!{% endblock %}
+
+{% block body %}
+    <div>
+        <h2>Mes Identifiant</h2>
+
+        <form action="{{ path('app_profile_edit_user') }}" method="post">
+           <div class="row">
+               <div class="col-md-6 mb-3">
+                   <label for="name" class="form-label">Name</label>
+                   <input type="text" name="name" class="form-control" id="name" value="{{ app.user.name }}">
+               </div>
+               <div class="col-md-6 mb-3">
+                   <label for="email" class="form-label">Email</label>
+                   <input type="email" name="email" class="form-control" id="email" value="{{ app.user.email }}">
+               </div>
+           </div>
+
+            <input type="hidden" name="profile_update_user"
+                   value="{{ csrf_token('profile_update_user') }}"
+            >
+
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Modifier</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="mt-5">
+        <h2>Mes Informations</h2>
+        <form action="{{ path('app_profile_edit_information') }}" method="post">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="phone" class="form-label">Phone</label>
+                    <input type="text" name="phone" class="form-control" id="phone" value="{{ app.user.informationUser.phone ?? '' }}">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="pays" class="form-label">Pays</label>
+                    <input type="text" name="pays" class="form-control" id="pays" value="{{ app.user.informationUser.pays ?? '' }}">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="city" class="form-label">Ville</label>
+                    <input type="text" name="city" class="form-control" id="city" value="{{ app.user.informationUser.city ?? ''}}">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" name="description" id="description" rows="3">{{ app.user.informationUser.description ?? '' }}</textarea>
+            </div>
+
+            <input type="hidden" name="profile_update_information"
+                   value="{{ csrf_token('profile_update_information') }}"
+            >
+
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Modifier</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="mt-5">
+        <h2>Modifier mon mot de passe</h2>
+
+        <form action="{{ path('app_profile_edit_password') }}" method="post">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="password" class="form-label">Mot de passe</label>
+                    <input type="password" name="password" class="form-control" id="password">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="confirm-password" class="form-label">Confirmater votre mot de passe</label>
+                    <input type="password" name="confirm-password" class="form-control" id="confirm-password">
+                </div>
+            </div>
+
+            <input type="hidden" name="profile_update_password"
+                   value="{{ csrf_token('profile_update_password') }}"
+            >
+
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Modifier</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
