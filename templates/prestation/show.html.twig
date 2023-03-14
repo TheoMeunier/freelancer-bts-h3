@@ -3,12 +3,46 @@
 {% block title %}Hello PerstationController!{% endblock %}
 
 {% block body %}
-    <div class="d-flex justify-content-center align-items-center flex-column">
-        <img src="/upload/{{ prestation.image }}" alt="{{ prestation.title}}" width="650">
-        <h1 class="mt-2">{{ prestation.title}}</h1>
-    </div>
+    <div class="row">
+        <div class="col-md-9">
+            <div class="d-flex justify-content-center align-items-center flex-column">
+                <img src="/upload/{{ prestation.image }}" alt="{{ prestation.title }}" width="650">
+                <h1 class="mt-2">{{ prestation.title }}</h1>
+            </div>
 
-    <div>
-        {{ prestation.content }}
+            <div>
+                {{ prestation.content }}
+            </div>
+        </div>
+
+        <div class="col-md-3 text-end">
+
+            <div>
+                <p class="h1 text-primary">{{ prestation.price }} €</p>
+            </div>
+
+           <div class="mt-5">
+               <h2>Information</h2>
+
+               <div class="card mt-3">
+                   <div class="card-body">
+                       <p class="card-text">
+                           Prestataire: {{ prestation.user.name }}
+                       </p>
+                       <p class="card-text">
+                           Email: {{ prestation.user.email }}
+                       </p>
+                       <p class="card-text">
+                           Téléphone: {{ prestation.user.informationUser.phone }}
+                       </p>
+                   </div>
+               </div>
+           </div>
+
+            <div class="mt-3">
+                <button class="btn btn-primary">Me contacter</button>
+                <button class="btn btn-primary">Faire une demande</button>
+            </div>
+        </div>
     </div>
 {% endblock %}

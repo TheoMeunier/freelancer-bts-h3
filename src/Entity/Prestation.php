@@ -40,6 +40,9 @@ class Prestation
     #[ORM\Column(length: 255)]
     private string $image;
 
+    #[ORM\Column]
+    private ?int $price = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -150,6 +153,18 @@ class Prestation
     public function setImage(string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    public function setPrice(int $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }
