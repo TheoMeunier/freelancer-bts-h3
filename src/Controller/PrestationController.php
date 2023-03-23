@@ -2,11 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Contact;
 use App\Entity\Prestation;
 use App\Entity\User;
+use App\Form\ContactType;
 use App\Form\PrestationType;
 use App\Repository\PrestationRepository;
 use App\Services\FileServiceInterface;
+use App\Services\MailerServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,6 +23,7 @@ class PrestationController extends AbstractController
         private PrestationRepository $repository,
         private EntityManagerInterface $em,
         private FileServiceInterface $fileService,
+        private MailerServiceInterface $mailerService,
         private string  $uploadDirectory
     )
     {
@@ -55,12 +59,33 @@ class PrestationController extends AbstractController
 
 
     #[Route('/prestation/{id}', name: 'app_prestation_show')]
-    public function show(int $id): Response
+    public function show(int $id, Request $request): Response
     {
         $prestation = $this->repository->find($id);
 
+        $contact = new Contact();
+        $form = $this->createForm(ContactType::class, $contact);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $this->mailerService->send(
+                $this->getParameter('email_noreply'),
+                $this->getParameter('email'),
+                'Contact Prestation',
+                'email/contact/contact.html.twig',
+                'email/contact/contact.txt.twig',
+                ['contact' => $contact]
+            );
+
+            $this->addFlash('success', 'Send Mail');
+
+            return $this->redirectToRoute('app_prestation_show', ['id' => $prestation->getId()]);
+        }
+
         return $this->render('prestation/show.html.twig', [
-            'prestation' => $prestation
+            'prestation' => $prestation,
+            'form' => $form->createView()
         ]);
     }
 }

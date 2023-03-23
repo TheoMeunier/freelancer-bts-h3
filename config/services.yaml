@@ -6,6 +6,9 @@
 parameters:
     path_directory_upload: 'upload/'
 
+    email_noreply: 'agencefreelancer@exemple.fr'
+    email: 'agencefreelancer@exemple.fr'
+
 services:
     # default configuration for services in *this* file
     _defaults:

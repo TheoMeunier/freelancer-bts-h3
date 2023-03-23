@@ -1,24 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello PerstationController!{% endblock %}
+{% block title %}Hello Perstation Controller!{% endblock %}
 
 {% block body %}
     <div class="row">
         <div class="col-md-9">
             <div class="d-flex justify-content-center align-items-center flex-column">
                 <img src="/upload/{{ prestation.image }}" alt="{{ prestation.title }}" width="650">
-                <h1 class="mt-2">{{ prestation.title }}</h1>
+                <h1 class="mt-3">{{ prestation.title }}</h1>
             </div>
 
-            <div>
-                {{ prestation.content }}
+            <div class="mt-3">
+                <p>{{ prestation.content|nl2br }}</p>
             </div>
         </div>
 
         <div class="col-md-3 text-end">
 
             <div>
-                <p class="h1 text-primary">{{ prestation.price }} €</p>
+                <p class="h1 display-1 fw-semibold text-primary">{{ prestation.price }} €</p>
             </div>
 
            <div class="mt-5">
@@ -42,6 +42,27 @@
             <div class="mt-3">
                 <button class="btn btn-primary">Me contacter</button>
                 <button class="btn btn-primary">Faire une demande</button>
+            </div>
+
+            <div class="contact mt-5">{{ form_start(form) }}
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ form_row(form.first_name) }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form_row(form.last_name) }}
+                    </div>
+                </div>
+                <div>
+                    {{ form_row(form.email) }}
+                </div>
+
+                <div>
+                    {{ form_row(form.content) }}
+                </div>
+
+                <button type="submit" class="btn btn-primary">Envoyer</button>
+                {{ form_end(form) }}
             </div>
         </div>
     </div>
