@@ -17,11 +17,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminAdminPrestationController extends AbstractController
 {
     public function __construct(
-        private readonly PrestationRepository $repository,
-        private readonly PaginatorInterface $paginator,
+        private readonly PrestationRepository   $repository,
+        private readonly PaginatorInterface     $paginator,
         private readonly EntityManagerInterface $em,
-        private FileServiceInterface $fileService,
-        private string  $uploadDirectory
+        private readonly FileServiceInterface   $fileService,
+        private readonly string $uploadDirectory
     )
     {
     }
