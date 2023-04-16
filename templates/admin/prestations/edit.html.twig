@@ -1,0 +1,16 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Hello AdminAdminPrestationController!{% endblock %}
+
+{% block body %}
+    <h1>Modifier la prestation</h1>
+
+    {{ form_start(form) }}
+    {{ (form_row(form.title)) }}
+    {{ (form_row(form.price)) }}
+    {{ (form_row(form.image)) }}
+    {{ (form_row(form.description)) }}
+    {{ (form_row(form.content)) }}
+    <button type="submit" class="btn btn-primary">Modifier</button>
+    {{ form_end(form) }}
+{% endblock %}

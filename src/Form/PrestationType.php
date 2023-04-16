@@ -18,7 +18,10 @@ class PrestationType extends AbstractType
         $builder
             ->add('title', TextType::class)
             ->add('price', IntegerType::class)
-            ->add('image', FileType::class)
+            ->add('image', FileType::class, [
+                'mapped' => false,
+                'required' => false,
+                ])
             ->add('description', TextareaType::class)
             ->add('content', TextareaType::class)
         ;
