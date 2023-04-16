@@ -38,7 +38,7 @@ class AppFixtures extends Fixture
             $users->setEmail($faker->email);
             $users->setIsVerified(true);
             $users->setPassword($this->passwordHasher->hashPassword(
-                $users, 'nique ta mere'));
+                $users, $faker->password));
 
             $manager->persist($users);
 
@@ -47,7 +47,7 @@ class AppFixtures extends Fixture
             $info->setPhone($faker->phoneNumber);
             $info->setCity($faker->city);
             $info->setPays($faker->country);
-            $info->setDescription('ma super description de la mort qui tue');
+            $info->setDescription($faker->text());
             $info->setUser($users);
 
             $manager->persist($info);
@@ -58,8 +58,8 @@ class AppFixtures extends Fixture
                 $prestation = new Prestation();
                 $prestation->setTitle($faker->title);
                 $prestation->setPrice(500);
-                $prestation->setContent('mon super contenu de la mort qui tue');
-                $prestation->setDescription('ma super description de la mort qui tue');
+                $prestation->setContent($faker->paragraph(10));
+                $prestation->setDescription($faker->text());
                 $prestation->setImage('https://picsum.photos/200/300');
                 $prestation->setUser($users);
 
