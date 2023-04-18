@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     mariadb-client \
     libpng-dev \
+    libicu-dev \
     libjpeg62-turbo-dev \
     libfreetype6-dev \
     locales \
@@ -29,7 +30,7 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install extensions
-RUN docker-php-ext-install pdo pdo_mysql
+RUN docker-php-ext-install pdo pdo_mysql intl
 RUN npm install -g -y yarn
 
 # Install composer

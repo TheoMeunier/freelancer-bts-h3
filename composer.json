@@ -13,6 +13,7 @@
         "doctrine/doctrine-bundle": "^2.6",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.11",
+        "easycorp/easyadmin-bundle": "^4.6",
         "fakerphp/faker": "^1.21",
         "knplabs/knp-paginator-bundle": "^6.1",
         "phpdocumentor/reflection-docblock": "^5.3",
