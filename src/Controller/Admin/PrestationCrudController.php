@@ -3,6 +3,8 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Prestation;
+use App\Services\FileServiceInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -19,6 +21,14 @@ use Symfony\Component\Validator\Constraints\Choice;
 
 class PrestationCrudController extends AbstractCrudController
 {
+
+    public function __construct(
+        private readonly FileServiceInterface $fileService,
+        private string $uploadDirectory,
+    )
+    {
+    }
+
     public static function getEntityFqcn(): string
     {
         return Prestation::class;
@@ -32,6 +42,15 @@ class PrestationCrudController extends AbstractCrudController
             ->setPageTitle('edit', 'Modifier ma prestation')
             ->setDateTimeFormat('d/m/Y')
             ->setPaginatorPageSize(9);
+    }
+
+    public function persistEntity(
+        EntityManagerInterface|string $em, $entityInstance,
+    ): void
+    {
+        if (!$entityInstance instanceof Prestation) return;
+
+        parent::persistEntity($em, $entityInstance);
     }
 
 
