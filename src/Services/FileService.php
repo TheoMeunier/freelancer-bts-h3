@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use Doctrine\Migrations\Configuration\Exception\FileNotFound;
@@ -11,14 +13,13 @@ class FileService implements FileServiceInterface
 {
     public function __construct(
         private SluggerInterface $slugger
-    )
-    {
+    ) {
     }
 
     public function upload(UploadedFile $file, string $path): string
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        $filename = $this->slugger->slug($originalFilename) .'-' . uniqid() .'.' .$file->guessExtension();
+        $filename = $this->slugger->slug($originalFilename) . '-' . uniqid() . '.' . $file->guessExtension();
 
         $file->move($path, $filename);
 
@@ -28,14 +29,14 @@ class FileService implements FileServiceInterface
 
     public function delete(string $file, string $path): void
     {
-        if (!file_exists($path)){
+        if (!file_exists($path)) {
             throw new FileException("Le répertoire n'existe pas");
         }
 
-        if (!file_exists($path . DIRECTORY_SEPARATOR . $file)){
+        if (!file_exists($path . DIRECTORY_SEPARATOR . $file)) {
             throw new FileNotFound("le fichier n'existe pas");
         }
 
-        unlink($path . DIRECTORY_SEPARATOR .$file);
+        unlink($path . DIRECTORY_SEPARATOR . $file);
     }
 }

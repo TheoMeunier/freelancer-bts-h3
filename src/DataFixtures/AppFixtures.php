@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataFixtures;
 
 use App\Entity\InformationUser;
@@ -14,8 +16,7 @@ class AppFixtures extends Fixture
 {
     public function __construct(
         private readonly UserPasswordHasherInterface $passwordHasher
-    )
-    {
+    ) {
     }
 
     public function load(ObjectManager $manager): void
@@ -26,7 +27,9 @@ class AppFixtures extends Fixture
         $users->setEmail('theo.meunier41@gmail.com');
         $users->setIsVerified(true);
         $users->setPassword($this->passwordHasher->hashPassword(
-            $users, 'theotheo'));
+            $users,
+            'theotheo',
+        ));
 
         $manager->persist($users);
 
@@ -38,7 +41,9 @@ class AppFixtures extends Fixture
             $users->setEmail($faker->email);
             $users->setIsVerified(true);
             $users->setPassword($this->passwordHasher->hashPassword(
-                $users, $faker->password));
+                $users,
+                $faker->password,
+            ));
 
             $manager->persist($users);
 
@@ -53,8 +58,7 @@ class AppFixtures extends Fixture
             $manager->persist($info);
 
             // creation de prestation
-            for($j = 0; $j < 5; $j++)
-            {
+            for ($j = 0; $j < 5; $j++) {
                 $prestation = new Prestation();
                 $prestation->setTitle($faker->title);
                 $prestation->setPrice(500);

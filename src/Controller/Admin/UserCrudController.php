@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Admin;
 
 use App\Entity\User;
@@ -22,8 +24,7 @@ class UserCrudController extends AbstractCrudController
 {
     public function __construct(
         private UserPasswordHasherInterface $passwordEncoder
-    )
-    {
+    ) {
     }
 
     public static function getEntityFqcn(): string
@@ -44,15 +45,16 @@ class UserCrudController extends AbstractCrudController
     public function persistEntity(
         EntityManagerInterface|string $em,
         $entityInstance
-    ): void
-    {
-       if (!$entityInstance instanceof User) return;
+    ): void {
+        if (!$entityInstance instanceof User) {
+            return;
+        }
 
-       $entityInstance->setPassword(
-           $this->passwordEncoder->hashPassword($entityInstance, $entityInstance->getPassword())
-       );
+        $entityInstance->setPassword(
+            $this->passwordEncoder->hashPassword($entityInstance, $entityInstance->getPassword()),
+        );
 
-       parent::persistEntity($em, $entityInstance);
+        parent::persistEntity($em, $entityInstance);
     }
 
 

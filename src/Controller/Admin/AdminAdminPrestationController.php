@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Admin;
 
 use App\Entity\Prestation;
@@ -17,13 +19,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminAdminPrestationController extends AbstractController
 {
     public function __construct(
-        private readonly PrestationRepository   $repository,
-        private readonly PaginatorInterface     $paginator,
+        private readonly PrestationRepository $repository,
+        private readonly PaginatorInterface $paginator,
         private readonly EntityManagerInterface $em,
-        private readonly FileServiceInterface   $fileService,
+        private readonly FileServiceInterface $fileService,
         private readonly string $uploadDirectory
-    )
-    {
+    ) {
     }
 
     #[Route('/', name: 'index')]
@@ -32,7 +33,7 @@ class AdminAdminPrestationController extends AbstractController
         $prestations = $this->paginator->paginate(
             $this->repository->findAll(),
             $request->query->getInt('page', 1),
-            9
+            9,
         );
 
         return $this->render('admin/prestations/index.html.twig', [
@@ -47,10 +48,9 @@ class AdminAdminPrestationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $dataImage = $form->get('image')->getData();
 
-            if($dataImage) {
+            if ($dataImage) {
                 $file = $this->fileService->upload($dataImage, $this->uploadDirectory);
                 $prestation->setImage($file);
             }
@@ -70,7 +70,7 @@ class AdminAdminPrestationController extends AbstractController
     #[Route('/delete/{id}', name: 'delete', methods: ['POST', 'DELETE'])]
     public function delete(Request $request, Prestation $prestation): Response
     {
-        if($this->isCsrfTokenValid('delete' . $prestation->getId(), $request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $prestation->getId(), $request->get('_token'))) {
             $this->em->remove($prestation);
             $this->em->flush();
             $this->addFlash('success', 'Prestation supprimée avec succès');

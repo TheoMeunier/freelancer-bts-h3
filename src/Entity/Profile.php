@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\ProfileRepository;
@@ -35,8 +37,8 @@ class Profile
 
     public function __construct()
     {
-       $this->createdAt = new DateTime();
-       $this->updatedAt = new DateTime();
+        $this->createdAt = new DateTime();
+        $this->updatedAt = new DateTime();
     }
     public function getId(): ?int
     {

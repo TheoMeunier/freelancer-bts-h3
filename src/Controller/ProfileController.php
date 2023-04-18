@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\InformationUser;
@@ -15,12 +17,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ProfileController extends AbstractController
 {
-
     public function __construct(
-        private UserRepository         $repository,
+        private UserRepository $repository,
         private EntityManagerInterface $em
-    )
-    {
+    ) {
     }
 
     #[Route('/profile', name: 'app_profile')]
@@ -61,7 +61,6 @@ class ProfileController extends AbstractController
         $information = $this->getUser()->getInformationUser() ?? new InformationUser();
 
         if ($this->isCsrfTokenValid('profile_update_information', $submittedToken)) {
-
             if ($information->getId() === null) {
                 $information->setUser($this->getUser());
             }

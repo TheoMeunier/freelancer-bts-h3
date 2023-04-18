@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Admin;
 
 use App\Entity\Prestation;
@@ -37,10 +39,12 @@ class PrestationCrudController extends AbstractCrudController
     }
 
     public function persistEntity(
-        EntityManagerInterface|string $em, $entityInstance,
-    ): void
-    {
-        if (!$entityInstance instanceof Prestation) return;
+        EntityManagerInterface|string $em,
+        $entityInstance,
+    ): void {
+        if (!$entityInstance instanceof Prestation) {
+            return;
+        }
 
         parent::persistEntity($em, $entityInstance);
     }

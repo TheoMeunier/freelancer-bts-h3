@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\Contact;
@@ -18,15 +20,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PrestationController extends AbstractController
 {
-
     public function __construct(
         private PrestationRepository $repository,
         private EntityManagerInterface $em,
         private FileServiceInterface $fileService,
         private MailerServiceInterface $mailerService,
-        private string  $uploadDirectory
-    )
-    {
+        private string $uploadDirectory
+    ) {
     }
 
     #[Route('/prestation/create', name: 'app_prestation_create')]
@@ -68,14 +68,13 @@ class PrestationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $this->mailerService->send(
                 $this->getParameter('email_noreply'),
                 $this->getParameter('email'),
                 'Contact Prestation',
                 'email/contact/contact.html.twig',
                 'email/contact/contact.txt.twig',
-                ['contact' => $contact]
+                ['contact' => $contact],
             );
 
             $this->addFlash('success', 'Send Mail');
