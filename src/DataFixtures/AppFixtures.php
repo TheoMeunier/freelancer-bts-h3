@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
+use App\Entity\Category;
 use App\Entity\InformationUser;
 use App\Entity\Prestation;
 use App\Entity\User;
@@ -16,23 +17,22 @@ class AppFixtures extends Fixture
 {
     public function __construct(
         private readonly UserPasswordHasherInterface $passwordHasher
-    ) {
+    )
+    {
     }
 
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');
-        $users = new User();
-        $users->setName('Theo meunier');
-        $users->setEmail('theo.meunier41@gmail.com');
-        $users->setIsVerified(true);
-        $users->setPassword($this->passwordHasher->hashPassword(
-            $users,
-            'theotheo',
-        ));
 
-        $manager->persist($users);
+        for ($t = 0; $t < 15; $t++)
+        {
+            $categories = new Category();
+            $categories->setName($faker->name);
 
+            $manager->persist($categories);
+            $this->addReference('category_'.$t, $categories);
+        }
 
         for ($i = 0; $i < 50; $i++) {
             //creation d'utilisateur
@@ -66,6 +66,7 @@ class AppFixtures extends Fixture
                 $prestation->setDescription($faker->text());
                 $prestation->setImage('https://picsum.photos/200/300');
                 $prestation->setUser($users);
+                $prestation->addCategory($this->getReference('category_' . $faker->numberBetween(0, 13)));
 
                 $manager->persist($prestation);
             }

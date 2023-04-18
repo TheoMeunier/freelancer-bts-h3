@@ -30,9 +30,6 @@ class Prestation
     #[ORM\ManyToOne(inversedBy: 'prestations')]
     private User $user;
 
-    #[ORM\ManyToOne(inversedBy: 'prestation')]
-    private ?Gategory $gategory = null;
-
     #[ORM\OneToMany(mappedBy: 'prestation', targetEntity: Like::class)]
     private Collection $likes;
 
@@ -45,11 +42,15 @@ class Prestation
     #[ORM\Column]
     private ?int $price = null;
 
+    #[ORM\ManyToMany(targetEntity: Category::class, mappedBy: 'prestations')]
+    private Collection $categories;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
         $this->likes = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     public function getId(): int
@@ -89,18 +90,6 @@ class Prestation
     public function setUser(User $user): self
     {
         $this->user = $user;
-
-        return $this;
-    }
-
-    public function getGategory(): ?Gategory
-    {
-        return $this->gategory;
-    }
-
-    public function setGategory(?Gategory $gategory): self
-    {
-        $this->gategory = $gategory;
 
         return $this;
     }
@@ -167,6 +156,33 @@ class Prestation
     public function setPrice(int $price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Category>
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(Category $category): self
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories->add($category);
+            $category->addPrestation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): self
+    {
+        if ($this->categories->removeElement($category)) {
+            $category->removePrestation($this);
+        }
 
         return $this;
     }
