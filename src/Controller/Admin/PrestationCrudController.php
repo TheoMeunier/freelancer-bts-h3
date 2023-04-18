@@ -21,14 +21,6 @@ use Symfony\Component\Validator\Constraints\Choice;
 
 class PrestationCrudController extends AbstractCrudController
 {
-
-    public function __construct(
-        private readonly FileServiceInterface $fileService,
-        private string $uploadDirectory,
-    )
-    {
-    }
-
     public static function getEntityFqcn(): string
     {
         return Prestation::class;
