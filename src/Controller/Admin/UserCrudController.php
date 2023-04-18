@@ -79,13 +79,12 @@ class UserCrudController extends AbstractCrudController
                 ->allowMultipleChoices(),
 
             TextField::new('password')
-                ->onlyOnForms()
                 ->setFormType(RepeatedType::class)
                 ->setFormTypeOption('type', PasswordType::class)
                 ->setFormTypeOption('first_options', ['label' => 'Password'])
                 ->setFormTypeOption('second_options', ['label' => 'Repeat Password'])
                 ->setColumns(6)
-                ->onlyOnForms(),
+                ->onlyWhenCreating(),
 
             BooleanField::new('isVerified')
                 ->renderAsSwitch(true)
