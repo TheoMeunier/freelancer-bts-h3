@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Entity\Category;
 use App\Entity\Prestation;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -34,5 +35,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('Properties');
         yield MenuItem::linkToCrud('Utilisateurs', 'fa-solid fa-user', User::class);
         yield MenuItem::linkToCrud('Prestations', 'fa-sharp fa-solid fa-laptop', Prestation::class);
+        yield MenuItem::linkToCrud('Categories', 'fa-solid fa-swatchbook', Category::class);
     }
 }

@@ -69,6 +69,9 @@ class PrestationCrudController extends AbstractCrudController
             AssociationField::new('user')
                 ->setColumns(6),
 
+            AssociationField::new('categories')
+                ->setColumns(6),
+
             TextareaField::new('description')
                 ->setColumns(12),
 
