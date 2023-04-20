@@ -23,6 +23,7 @@
         "node-sass": "^7.0.1",
         "sass": "^1.58.0",
         "sass-loader": "^12.0.0",
+        "tom-select": "^2.2.2",
         "webpack": "^5.75.0"
     }
 }

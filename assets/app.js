@@ -14,3 +14,13 @@ import 'bootstrap';
 
 // start the Stimulus application
 import './bootstrap'
+import TomSelect from "tom-select";
+
+// Tom select
+const prestation = document.querySelector('#prestation_categories')
+
+new TomSelect(prestation, {
+    plugins: {
+        remove_button: {title: 'Supprimer'},
+    },
+})

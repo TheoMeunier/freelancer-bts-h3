@@ -5,12 +5,29 @@
 {% block body %}
     <h1>Créer une prestation</h1>
 
-    {{ form_start(form) }}
-        {{ (form_row(form.title)) }}
-        {{ (form_row(form.price)) }}
-        {{ (form_row(form.image)) }}
+    <div>
+        {{ form_start(form) }}
+        <div class="row">
+            <div class="col-md-6">
+                {{ (form_row(form.title)) }}
+            </div>
+            <div class="col-md-6">
+                {{ (form_row(form.price)) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                {{ (form_row(form.image)) }}
+            </div>
+            <div class="col-md-6">
+                {{ (form_row(form.categories)) }}
+            </div>
+        </div>
         {{ (form_row(form.description)) }}
         {{ (form_row(form.content)) }}
         <button type="submit" class="btn btn-primary">Créer</button>
-    {{ form_end(form) }}
+
+        {{ form_end(form) }}
+    </div>
+
 {% endblock %}
