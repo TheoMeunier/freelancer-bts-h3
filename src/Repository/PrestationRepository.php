@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Prestation;
+use App\Entity\PrestationSearch;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 /**
  * @extends ServiceEntityRepository<Prestation>
  *
@@ -18,9 +20,29 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class PrestationRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(
+       ManagerRegistry $registry,
+        private readonly PaginatorInterface $paginationInterface
+    )
     {
         parent::__construct($registry, Prestation::class);
+    }
+
+    public function findBySearch(PrestationSearch $search): PaginationInterface
+    {
+        $queryBuilder = $this->createQueryBuilder('p');
+
+        if (!empty($search->getName())) {
+            $queryBuilder = $queryBuilder
+                ->andWhere('p.title LIKE :title')
+                ->setParameter('title', "%{$search->getName()}%");
+        }
+
+        $query = $queryBuilder->getQuery();
+
+        $pagination = $this->paginationInterface->paginate($query, $search->getPage(), 12);
+
+        return $pagination;
     }
 
     public function save(Prestation $entity, bool $flush = false): void

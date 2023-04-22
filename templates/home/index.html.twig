@@ -12,6 +12,13 @@
             {% endif %}
         </div>
 
+        <div class="d-flex justify-content-end">
+            <div class="w-25">
+                {{ form_start(form) }}
+                {{ form_end(form) }}
+            </div>
+        </div>
+
         <div class="row mt-3">
             {% for prestation in prestations %}
                 <div class="col-md-3">
