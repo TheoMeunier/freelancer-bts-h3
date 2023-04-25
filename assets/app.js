@@ -18,8 +18,15 @@ import TomSelect from "tom-select";
 
 // Tom select
 const prestation = document.querySelector('#prestation_categories')
+const categories = document.querySelector('#categories')
 
 new TomSelect(prestation, {
+    plugins: {
+        remove_button: {title: 'Supprimer'},
+    },
+})
+
+new TomSelect(categories, {
     plugins: {
         remove_button: {title: 'Supprimer'},
     },

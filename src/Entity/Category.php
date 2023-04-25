@@ -73,9 +73,3 @@ class Category
     }
 
 }
-
-class CategoryWithName extends Category {
-    public function __toString() {
-        return $this->getName() . ' (' . $this->getName() . ')';
-    }
-}

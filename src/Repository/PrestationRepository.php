@@ -38,7 +38,7 @@ class PrestationRepository extends ServiceEntityRepository
         if (!empty($search->getName())) {
             $queryBuilder = $queryBuilder
                 ->andWhere('p.title LIKE :title')
-                ->setParameter('title', "%{$search->getName()}%");
+                ->setParameter('title', $search->getName());
         }
 
         if (!empty($search->getCategories())) {
@@ -47,13 +47,9 @@ class PrestationRepository extends ServiceEntityRepository
                 ->setParameter('categories', $search->getCategories());
         }
 
+        $query = $queryBuilder->getQuery();
 
-            $query = $queryBuilder->getQuery();
-
-            $pagination = $this->paginationInterface->paginate($query, $search->getPage(), 12);
-
-            return $pagination;
-
+        return $this->paginationInterface->paginate($query, $search->getPage(), 12);
     }
 
     public function save(Prestation $entity, bool $flush = false): void

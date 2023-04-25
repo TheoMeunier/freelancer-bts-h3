@@ -186,6 +186,4 @@ class Prestation
 
         return $this;
     }
-
-
 }
