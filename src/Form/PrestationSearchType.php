@@ -2,11 +2,15 @@
 
 namespace App\Form;
 
+use App\Entity\Category;
 use App\Entity\PrestationSearch;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
+
 
 class PrestationSearchType extends AbstractType
 {
@@ -18,6 +22,18 @@ class PrestationSearchType extends AbstractType
                 'required' => false,
                 'attr'=> [
                     'placeholder' => 'Rechercher'
+                ]
+            ])
+            ->add('categories',EntityType::class,[
+                'label' => false,
+                'required'=>false,
+                'class'=>Category::class,
+                'expanded'=>false,
+                'multiple'=>false,
+                //pour faire une liste déroulante
+                'placeholder'=>'Selectionner une catégories',
+                'attr'=>[
+                    'class' => 'form-select'
                 ]
             ])
         ;

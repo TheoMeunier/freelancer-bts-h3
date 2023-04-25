@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+
 class PrestationSearch
 {
     private ?string $name = '';
@@ -41,4 +42,19 @@ class PrestationSearch
     {
         $this->name = $name;
     }
+
+
+    private $categories;
+
+    public function getCategories()
+    {
+        return $this->categories;
+    }
+
+    public function setCategories($categories)
+    {
+        $this->categories = $categories;
+    }
+
+
 }

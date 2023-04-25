@@ -30,7 +30,10 @@ class PrestationRepository extends ServiceEntityRepository
 
     public function findBySearch(PrestationSearch $search): PaginationInterface
     {
-        $queryBuilder = $this->createQueryBuilder('p');
+        $queryBuilder = $this
+            ->createQueryBuilder('p')
+            ->select('c', 'p')
+            ->join('p.categories', 'c');
 
         if (!empty($search->getName())) {
             $queryBuilder = $queryBuilder
@@ -38,11 +41,19 @@ class PrestationRepository extends ServiceEntityRepository
                 ->setParameter('title', "%{$search->getName()}%");
         }
 
-        $query = $queryBuilder->getQuery();
+        if (!empty($search->getCategories())) {
+            $queryBuilder = $queryBuilder
+                ->andWhere('c.id IN (:categories)')
+                ->setParameter('categories', $search->getCategories());
+        }
 
-        $pagination = $this->paginationInterface->paginate($query, $search->getPage(), 12);
 
-        return $pagination;
+            $query = $queryBuilder->getQuery();
+
+            $pagination = $this->paginationInterface->paginate($query, $search->getPage(), 12);
+
+            return $pagination;
+
     }
 
     public function save(Prestation $entity, bool $flush = false): void

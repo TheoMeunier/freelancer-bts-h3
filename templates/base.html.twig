@@ -11,6 +11,14 @@
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
+
+        <style>
+            .filter{
+                display:block;
+                position: sticky;
+                top:20px;
+            }
+        </style>
     </head>
     <body class="bg-light.bg-gradient">
         {% include 'layouts/_navbar.html.twig' %}
