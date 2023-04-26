@@ -53,12 +53,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?InformationUser $informationUser = null;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: PrestationComments::class)]
+    private Collection $prestation_comments;
+
     public function __construct()
     {
         $this->createdAt = new DateTime();
         $this->updatedAt = new DateTime();
         $this->prestations = new ArrayCollection();
         $this->likes = new ArrayCollection();
+        $this->prestation_comments = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -260,6 +264,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         }
 
         $this->informationUser = $informationUser;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PrestationComments>
+     */
+    public function getPrestationComments(): Collection
+    {
+        return $this->prestation_comments;
+    }
+
+    public function addPrestationComment(PrestationComments $prestationComment): self
+    {
+        if (!$this->prestation_comments->contains($prestationComment)) {
+            $this->prestation_comments->add($prestationComment);
+            $prestationComment->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePrestationComment(PrestationComments $prestationComment): self
+    {
+        if ($this->prestation_comments->removeElement($prestationComment)) {
+            // set the owning side to null (unless already changed)
+            if ($prestationComment->getUser() === $this) {
+                $prestationComment->setUser(null);
+            }
+        }
 
         return $this;
     }

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Comments;
+use App\Entity\PrestationComments;
 use App\Entity\Contact;
 use App\Entity\Prestation;
 use App\Entity\User;
-use App\Form\CommentsType;
+use App\Form\PrestationCommentsType;
 use App\Form\ContactType;
 use App\Form\PrestationType;
 use App\Repository\PrestationRepository;
@@ -20,8 +20,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use DateTime;
-
-
 
 class PrestationController extends AbstractController
 {
@@ -88,41 +86,26 @@ class PrestationController extends AbstractController
             return $this->redirectToRoute('app_prestation_show', ['id' => $prestation->getId()]);
         }
 
-        //partie commentaire
-        $comment = new Comments;
-        //on genere le formulaire
-        $commentForm = $this->createForm(CommentsType::class, $comment);
+        //Commentaire
+        $comment = new PrestationComments;
+        $commentForm = $this->createForm(PrestationCommentsType::class, $comment);
+
         $commentForm -> handleRequest($request);
-        //le traitement de formulaire
         if($commentForm->isSubmitted() && $commentForm->isValid()){
-            $comment->setCreatedAt(new DateTime());
             $comment->setPrestation($prestation);
+            $comment->setUser($this->getUser());
 
-            //on récupere les donnée du champ parentid
-            $parentid = $commentForm ->get("parentid")->getData();
-
-            //on va aller chercher le commentaire correspondant
-            $em = $this->em;
-
-            if($parentid != null){
-                $parent = $em->getRepository(Comments::class)->find($parentid);
-            }
-
-            //on definie le parent
-            $comment->setParent($parent ?? null);
-
-            $em->persist($comment);
-            $em->flush();
+            $this->em->persist($comment);
+            $this->em->flush();
 
             $this->addFlash('success', 'Votre commentaire a bien été envoyé!');
             return $this->redirectToRoute('app_prestation_show',['id' => $prestation->getId()]);
         }
 
-
         return $this->render('prestation/show.html.twig', [
             'prestation' => $prestation,
             'form' => $form->createView(),
-            'commentForm'=>$commentForm->createView()
+            'commentForm' => $commentForm->createView()
         ]);
     }
 }
