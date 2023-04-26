@@ -24,16 +24,14 @@ class PrestationSearchType extends AbstractType
                     'placeholder' => 'Rechercher'
                 ]
             ])
-            ->add('categories',EntityType::class,[
+            ->add('categories',EntityType::class, [
                 'label' => false,
-                'required'=>false,
-                'class'=>Category::class,
-                'expanded'=>false,
-                'multiple'=>false,
-                //pour faire une liste déroulante
-                'placeholder'=>'Selectionner une catégories',
-                'attr'=>[
-                    'class' => 'form-select'
+                'required' => false,
+                'class' => Category::class,
+                'expanded' => false,
+                'multiple' => false,
+                'attr' => [
+                    'class' => 'form-select',
                 ]
             ])
         ;
@@ -48,7 +46,7 @@ class PrestationSearchType extends AbstractType
         ]);
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         //permet d'avoir une belle url
         return '';

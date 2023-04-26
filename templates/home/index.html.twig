@@ -12,20 +12,21 @@
             {% endif %}
         </div>
 
-        <!--creer le filter-->
-        <div class="d-flex justify-content-end">
-            <div class=" w-25">
-                {{ form_start(form,{attr:{class:'filter'}}) }}
+        <div class="d-flex justify-content-center mt-3 w-100">
+            {{ form_start(form) }}
+            <div class="row">
+                <div class="col-md-4">
                     {{ form_row(form.name) }}
-                    <h4>Catégories</h4>
-                    {{ form_label(form.categories) }}
-                    {{ form_widget(form.categories,{'attr':{'class':'form-control mb-3'}}) }}
-
-                <button type="submit" class="btn btn-primary  w-100"> Filtrer</button>
-                {{ form_end(form) }}
+                </div>
+                <div class="col-md-4">
+                    {{ form_row(form.categories) }}
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary">Rechercher</button>
+                </div>
             </div>
+            {{ form_end(form) }}
         </div>
-        <!-- c'est la card-->
 
         <div class="row mt-3">
             {% for prestation in prestations %}
@@ -36,7 +37,8 @@
                                 <img src="{{ prestation.image }}" class="card-img-top" alt="{{ prestation.title }}"
                                      width="auto" height="250">
                             {% else %}
-                                <img src="/upload/{{ prestation.image }}" class="card-img-top" alt="{{ prestation.title }}">
+                                <img src="/upload/{{ prestation.image }}" class="card-img-top"
+                                     alt="{{ prestation.title }}">
                             {% endif %}
                         </a>
                         <div class="card-body">
@@ -56,7 +58,7 @@
         <!--pagination-->
 
         <div class="d-flex justify-content-center mt-3">
-            {%  do prestations.setPageRange(4) %}
+            {% do prestations.setPageRange(4) %}
             {{ knp_pagination_render(prestations, 'layouts/_pagination.html.twig') }}
         </div>
     </div>
