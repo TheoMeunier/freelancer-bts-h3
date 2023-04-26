@@ -4,6 +4,7 @@
 
 {% block body %}
     <div class="row">
+        <!--partie gauche de la partie prestation-->
         <div class="col-md-9">
             <div class="d-flex justify-content-center align-items-center flex-column">
                 {% if (prestation.image == 'https://picsum.photos/200/300') %}
@@ -18,14 +19,71 @@
             <div class="mt-3">
                 <p>{{ prestation.content|nl2br }}</p>
             </div>
+
+            <br><br>
+            <br><br>
+
+            <div class="container mt-5">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2>Liste des Commentaires</h2>
+                        {% for comment in prestation.comments %}
+                            {% if comment.parent == null %}
+                                <h3>Commentaire de {{comment.nickname}}</h3>
+                                    <p>Publié le {{comment.createdAT|date("d/m/y H:i")}}</p>
+                                    <div>{{ comment.content|raw }}</div>
+                                    <p><a href="#ajout-commentaire" data-reply data-id="{{ comment.id }}" class="btn btn-primary">Répondre</a></p>
+
+                                <!--on affiche les reponses-->
+                                {% for reply in comment.replies %}
+
+
+                                    <p> - Réponse publié par {{ reply.nickname }} le {{reply.createdAT|date("d/m/y H:i")}}</p>
+                                    <div>{{ reply.content|raw }}</div>
+
+                                {% endfor %}
+                            {% endif %}
+
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-md-6" id="ajout-commentaire">
+                        <h2>Ajouter un Commentaire</h2>
+                        {{ form(commentForm) }}
+
+                        {% if app.session.flashbag.has('success') %}
+                            <div class="alert alert-success message-flash">
+                                {{ app.session.flashbag.get('success')[0] }}
+                            </div>
+                        {% endif %}
+                        <!-- utiliser le time out pour ajouté la class hide-->
+                        <script>
+                            setTimeout(function() {
+                                document.querySelector('.message-flash').classList.add('hide');
+                            }, 8000);
+                        </script>
+                        <!-- la class hide-->
+                        <style>
+                            .message-flash.hide {
+                                display: none;
+                            }
+                        </style>
+                    </div>
+                </div>
+                <!--juste form me-->
+            </div>
+
         </div>
 
+        <!--toutte la partie droite de la page prestation-->
         <div class="col-md-3 text-end">
 
+            <!--le prix-->
             <div>
                 <p class="h1 display-1 fw-semibold text-primary">{{ prestation.price }} €</p>
             </div>
 
+            <!--information-->
            <div class="mt-5">
                <h2>Information</h2>
 
@@ -44,11 +102,13 @@
                </div>
            </div>
 
+            <!--les deux button-->
             <div class="mt-3">
                 <button class="btn btn-primary">Me contacter</button>
                 <button class="btn btn-primary">Faire une demande</button>
             </div>
 
+            <!--champ formulaire pour modifier les informations?-->
             <div class="contact mt-5">{{ form_start(form) }}
                 <div class="row">
                     <div class="col-md-6">
@@ -71,4 +131,16 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts%}
+    <script>
+        window.onload=() =>{
+            document.querySelectorAll("[data-reply]").forEach(element =>{
+                element.addEventListener("click",function (){
+                    document.querySelector("#comments_parentid").value=this.dataset.id;
+                });
+            });
+        }
+    </script>
 {% endblock %}

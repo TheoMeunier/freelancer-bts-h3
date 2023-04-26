@@ -45,12 +45,16 @@ class Prestation
     #[ORM\ManyToMany(targetEntity: Category::class, mappedBy: 'prestations')]
     private Collection $categories;
 
+    #[ORM\OneToMany(mappedBy: 'prestation', targetEntity: Comments::class, orphanRemoval: true)]
+    private Collection $comments;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
         $this->likes = new ArrayCollection();
         $this->categories = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): int
@@ -186,6 +190,39 @@ class Prestation
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Comments>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comments $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setPrestation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comments $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getPrestation() === $this) {
+                $comment->setPrestation(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+
 
 
 }
