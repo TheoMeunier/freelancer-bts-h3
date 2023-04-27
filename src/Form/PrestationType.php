@@ -30,6 +30,7 @@ class PrestationType extends AbstractType
                 'class' => Category::class,
                 'placeholder' => 'Choisir une catégories',
                 'multiple' => true,
+                'by_reference' => false,
                 'attr' => [
                     'id' => 'input_tom_select'
                 ]
