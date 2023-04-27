@@ -42,13 +42,14 @@
                             {% endif %}
                         </a>
                         <div class="card-body">
+                            <div class="mb-2">
+                                {% for category in prestation.categories %}
+                                    <span class="badge text-bg-primary">{{ category.name }}</span>
+                                {% endfor %}
+                            </div>
+
                             <h5 class="card-title">{{ prestation.title }}</h5>
                             <p class="card-text">{{ prestation.description }}</p>
-                        </div>
-                        <div>
-                            {% for c in prestation.categories %}
-                                <em class="text-muted text-primary text-italic">#{{ c.name }}</em>
-                            {% endfor %}
                         </div>
                     </div>
                 </div>
