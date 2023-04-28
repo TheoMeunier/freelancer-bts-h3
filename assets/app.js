@@ -16,6 +16,23 @@ import 'bootstrap';
 import './bootstrap'
 import TomSelect from "tom-select";
 
+const btn_contact_prestation = document.querySelector('#btn_contact_prestation')
+const form_contact_prestation = document.querySelector('#form_contact_prestation')
+
+if (btn_contact_prestation && form_contact_prestation) {
+    btn_contact_prestation.addEventListener('click', (e) => {
+        e.preventDefault()
+
+        if (form_contact_prestation.classList.contains('d-none')) {
+            form_contact_prestation.classList.remove('d-none')
+            form_contact_prestation.classList.add('d-block')
+        } else {
+            form_contact_prestation.classList.remove('d-block')
+            form_contact_prestation.classList.add('d-none')
+        }
+    })
+}
+
 // Tom select
 const prestation = document.querySelector('#prestation_categories')
 const categories = document.querySelector('#categories')
@@ -31,3 +48,5 @@ new TomSelect(categories, {
         remove_button: {title: 'Supprimer'},
     },
 })
+
+
