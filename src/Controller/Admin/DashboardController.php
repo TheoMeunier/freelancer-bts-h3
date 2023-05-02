@@ -6,6 +6,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Category;
 use App\Entity\Prestation;
+use App\Entity\PrestationComments;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -38,5 +39,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('Prestations');
         yield MenuItem::linkToCrud('Prestations', 'fa-sharp fa-solid fa-laptop', Prestation::class);
         yield MenuItem::linkToCrud('Categories', 'fa-solid fa-swatchbook', Category::class);
+        yield MenuItem::linkToCrud('Commentaires', 'fa-regular fa-message', PrestationComments::class);
     }
 }
