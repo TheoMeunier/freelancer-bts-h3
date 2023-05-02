@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block body %}
+
+    <div>
+        <h1>{{ app.user.name }}</h1>
+        <p>Incrits depuis: {{ app.user.createdAt|date('d/M/Y') }}</p>
+    </div>
+
+    <div class="mt-3">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link {% if app.request.get('_route') == 'app_profile' %} active {% endif %}" href="{{ path('app_profile') }}">Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if app.request.get('_route') == 'app_profile_prestation' %} active {% endif %}" href="{{ path('app_profile_prestation') }}">Prestations</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if app.request.get('_route') == 'app_profile_commande' %} active {% endif %}" href="{{ path('app_profile_commande') }}">Commandes</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="card border border-top-0">
+        <div class="card-body">
+            {% block presation %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}

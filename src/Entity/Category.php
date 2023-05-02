@@ -19,6 +19,7 @@ class Category
     private ?string $name = null;
 
     #[ORM\ManyToMany(targetEntity: Prestation::class, inversedBy: 'categories')]
+    #[ORM\JoinColumn(nullable: false)]
     private Collection $prestations;
 
     public function __construct()

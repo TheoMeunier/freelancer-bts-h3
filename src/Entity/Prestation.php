@@ -42,7 +42,7 @@ class Prestation
     #[ORM\Column]
     private ?int $price = null;
 
-    #[ORM\ManyToMany(targetEntity: Category::class, mappedBy: 'prestations')]
+    #[ORM\ManyToMany(targetEntity: Category::class, mappedBy: 'prestations', cascade: 'remove')]
     private Collection $categories;
 
     #[ORM\OneToMany(mappedBy: 'prestation', targetEntity: PrestationComments::class)]

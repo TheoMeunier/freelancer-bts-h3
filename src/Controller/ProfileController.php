@@ -26,15 +26,25 @@ class ProfileController extends AbstractController
     #[Route('/profile', name: 'app_profile')]
     public function index(): Response
     {
-        return $this->render('profile/index.html.twig', [
+        return $this->render('profile/show/index.html.twig', [
             'controller_name' => 'ProfileController',
         ]);
     }
 
-    #[Route('/profile/edit', name: 'app_profile_edit')]
-    public function edit(): Response
+    #[Route('/profile/prestation', name: 'app_profile_prestation')]
+    public function prestation(): Response
     {
-        return $this->render('profile/edit.html.twig');
+        return $this->render('profile/show/prestation.html.twig', [
+            'controller_name' => 'ProfileController',
+        ]);
+    }
+
+    #[Route('/profile/commande', name: 'app_profile_commande')]
+    public function commande(): Response
+    {
+        return $this->render('profile/show/commande.html.twig', [
+            'controller_name' => 'ProfileController',
+        ]);
     }
 
     #[Route('/profile/edit/user', name: 'app_profile_edit_user', methods: 'POST')]
@@ -51,7 +61,7 @@ class ProfileController extends AbstractController
         }
 
         $this->addFlash('success', 'Update User with success');
-        return $this->redirectToRoute('app_profile_edit');
+        return $this->redirectToRoute('app_profile');
     }
 
     #[Route('/profile/edit/information', name: 'app_profile_edit_information', methods: 'POST')]
@@ -75,7 +85,7 @@ class ProfileController extends AbstractController
         }
 
         $this->addFlash('success', 'Update User with success');
-        return $this->redirectToRoute('app_profile_edit');
+        return $this->redirectToRoute('app_profile');
     }
 
     #[Route('/profile/edit/password', name: 'app_profile_edit_password', methods: 'POST')]
@@ -95,7 +105,7 @@ class ProfileController extends AbstractController
         }
 
         $this->addFlash('success', 'Update Password with success');
-        return $this->redirectToRoute('app_profile_edit');
+        return $this->redirectToRoute('app_profile');
     }
 
     private function getAuthUser(): ?\App\Entity\User

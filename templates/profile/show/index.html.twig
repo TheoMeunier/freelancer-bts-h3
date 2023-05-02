@@ -1,22 +1,20 @@
-{% extends 'base.html.twig' %}
+{% extends 'profile/base.html.twig' %}
 
-{% block title %}Hello ProfileController!{% endblock %}
-
-{% block body %}
+{% block presation %}
     <div>
         <h2>Mes Identifiant</h2>
 
         <form action="{{ path('app_profile_edit_user') }}" method="post">
-           <div class="row">
-               <div class="col-md-6 mb-3">
-                   <label for="name" class="form-label">Name</label>
-                   <input type="text" name="name" class="form-control" id="name" value="{{ app.user.name }}">
-               </div>
-               <div class="col-md-6 mb-3">
-                   <label for="email" class="form-label">Email</label>
-                   <input type="email" name="email" class="form-control" id="email" value="{{ app.user.email }}">
-               </div>
-           </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" name="name" class="form-control" id="name" value="{{ app.user.name }}">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" name="email" class="form-control" id="email" value="{{ app.user.email }}">
+                </div>
+            </div>
 
             <input type="hidden" name="profile_update_user"
                    value="{{ csrf_token('profile_update_user') }}"

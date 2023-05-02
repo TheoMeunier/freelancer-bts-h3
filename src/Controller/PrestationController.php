@@ -16,6 +16,7 @@ use App\Services\FileServiceInterface;
 use App\Services\MailerServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,7 +32,6 @@ class PrestationController extends AbstractController
         private string $uploadDirectory
     ) {
     }
-
 
     #[Route('/prestation/create', name: 'app_prestation_create')]
     public function create(Request $request): Response
@@ -60,7 +60,6 @@ class PrestationController extends AbstractController
             'form' => $form->createView()
         ]);
     }
-
 
     #[Route('/prestation/{id}', name: 'app_prestation_show')]
     public function show(int $id, Request $request): Response
@@ -107,5 +106,44 @@ class PrestationController extends AbstractController
             'form' => $form->createView(),
             'commentForm' => $commentForm->createView()
         ]);
+    }
+
+    #[Route('/prestation/edit/{id}', name: 'app_prestation_edit', methods: ['GET', 'POST'])]
+    public function edit(Prestation $prestation, Request $request): RedirectResponse|Response
+    {
+        $form = $this->createForm(PrestationType::class, $prestation);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $dataImage = $form->get('image')->getData();
+
+            if ($dataImage) {
+                $fileImage = $this->fileService->upload($dataImage, $this->uploadDirectory);
+                $prestation->setImage($fileImage);
+            }
+
+            $this->em->flush();
+            $this->addFlash('success', " La prestation à bien été modifier avec succès");
+
+            return $this->redirectToRoute('app_profile_prestation');
+        }
+
+        return $this->render('prestation/edit.html.twig', [
+            'form' => $form->createView(),
+            'prestation' => $prestation
+        ]);
+    }
+
+    #[Route('/prestation/delete/{id}', name: 'app_prestation_delete', methods: ['POST', 'DELETE'])]
+    public function delete(Prestation $prestation, Request $request): RedirectResponse
+    {
+        if ($this->isCsrfTokenValid('delete' . $prestation->getId(), $request->get('_token'))) {
+
+            $this->em->remove($prestation);
+            $this->em->flush();
+            $this->addFlash('success', " La prestation à bien été supprimer avec succès");
+        }
+
+        return $this->redirectToRoute('app_profile_prestation');
     }
 }
