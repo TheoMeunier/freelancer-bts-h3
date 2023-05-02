@@ -7,6 +7,7 @@ namespace App\DataFixtures;
 use App\Entity\Category;
 use App\Entity\InformationUser;
 use App\Entity\Prestation;
+use App\Entity\PrestationComments;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -69,6 +70,15 @@ class AppFixtures extends Fixture
                 $prestation->addCategory($this->getReference('category_' . $faker->numberBetween(0, 13)));
 
                 $manager->persist($prestation);
+
+                for ($c = 0; $c < 3; $c++) {
+                    $comment = new PrestationComments();
+                    $comment->setContent($faker->text);
+                    $comment->setPrestation($prestation);
+                    $comment->setUser($users);
+
+                    $manager->persist($comment);
+                }
             }
         }
 
