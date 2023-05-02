@@ -27,11 +27,10 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li>
+                                <a class="dropdown-item" aria-current="page" href="{{ path('app_logout') }}">Se déconnecter</a>
+                            </li>
                         </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ path('app_logout') }}">Se déconnecter</a>
                     </li>
                 {% else %}
                     <li class="nav-item">
