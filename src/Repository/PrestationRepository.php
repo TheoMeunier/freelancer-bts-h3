@@ -49,7 +49,7 @@ class PrestationRepository extends ServiceEntityRepository
 
         $query = $queryBuilder->getQuery();
 
-        return $this->paginationInterface->paginate($query, $search->getPage(), 12);
+        return $this->paginationInterface->paginate($query, $search->getPage(), 15);
     }
 
     public function save(Prestation $entity, bool $flush = false): void
