@@ -40,7 +40,7 @@ class MessagerieRepository extends ServiceEntityRepository
         }
     }
 
-    public function getMessagerisUser(User $user)
+    public function getMessageriesByUser(User $user)
     {
         return $this->createQueryBuilder('m')
             ->where('m.user = :user OR m.seeder = :user')
