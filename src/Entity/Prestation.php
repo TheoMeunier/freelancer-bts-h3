@@ -220,6 +220,4 @@ class Prestation
 
         return $this;
     }
-
-
 }

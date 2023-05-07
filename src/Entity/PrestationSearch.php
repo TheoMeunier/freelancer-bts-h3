@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -9,6 +11,8 @@ class PrestationSearch
     private ?string $name = '';
 
     private int $page = 1;
+
+    private mixed $categories;
 
     /**
      * @return int
@@ -42,18 +46,13 @@ class PrestationSearch
         $this->name = $name;
     }
 
-
-    private $categories;
-
-    public function getCategories()
+    public function getCategories(): mixed
     {
         return $this->categories;
     }
 
-    public function setCategories($categories)
+    public function setCategories(Category $categories): void
     {
         $this->categories = $categories;
     }
-
-
 }

@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\Message;
 use App\Entity\Messagerie;
+use App\Entity\User;
 use App\Form\MessagesType;
 use App\Repository\MessagerieRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,18 +17,16 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MessagerieController extends AbstractController
 {
-
     public function __construct(
         private readonly EntityManagerInterface $em,
         private readonly MessagerieRepository $repository
-    )
-    {
+    ) {
     }
 
     #[Route('/profile/messagerie', name: 'app_profile_messagerie')]
     public function index(): Response
     {
-        $messageries = $this->repository->getMessageriesByUser($this->getUser());
+        $messageries = $this->repository->getMessageriesByUser($this->getUser() instanceof User);
 
         return $this->render('profile/messageries/index.html.twig', [
             'messageries' => $messageries,

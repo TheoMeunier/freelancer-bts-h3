@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\Messagerie;
@@ -40,7 +42,11 @@ class MessagerieRepository extends ServiceEntityRepository
         }
     }
 
-    public function getMessageriesByUser(User $user)
+    /**
+     * @param User $user
+     * @return float|int|mixed|string
+     */
+    public function getMessageriesByUser(User $user): mixed
     {
         return $this->createQueryBuilder('m')
             ->where('m.user = :user OR m.seeder = :user')

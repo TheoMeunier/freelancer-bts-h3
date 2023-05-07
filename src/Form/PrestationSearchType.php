@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use App\Entity\Category;
@@ -10,8 +12,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-
-
 class PrestationSearchType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -20,11 +20,11 @@ class PrestationSearchType extends AbstractType
             ->add('name', TextType::class, [
                 'label' => false,
                 'required' => false,
-                'attr'=> [
+                'attr' => [
                     'placeholder' => 'Rechercher'
                 ]
             ])
-            ->add('categories',EntityType::class, [
+            ->add('categories', EntityType::class, [
                 'label' => false,
                 'required' => false,
                 'class' => Category::class,

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form;
 
 use App\Entity\PrestationComments;
@@ -14,7 +16,7 @@ class PrestationCommentsType extends AbstractType
     {
         $builder
             ->add('content', TextareaType::class, [
-                'label' =>'Votre commentaire',
+                'label' => 'Votre commentaire',
             ])
         ;
     }

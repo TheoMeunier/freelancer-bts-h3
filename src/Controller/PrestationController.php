@@ -91,11 +91,11 @@ class PrestationController extends AbstractController
         }
 
         //Commentaire
-        $comment = new PrestationComments;
+        $comment = new PrestationComments();
         $commentForm = $this->createForm(PrestationCommentsType::class, $comment);
 
         $commentForm -> handleRequest($request);
-        if($commentForm->isSubmitted() && $commentForm->isValid()){
+        if ($commentForm->isSubmitted() && $commentForm->isValid()) {
             $comment->setPrestation($prestation);
             $comment->setUser($this->getUser());
 
@@ -103,7 +103,7 @@ class PrestationController extends AbstractController
             $this->em->flush();
 
             $this->addFlash('success', 'Votre commentaire a bien été envoyé!');
-            return $this->redirectToRoute('app_prestation_show',['id' => $prestation->getId()]);
+            return $this->redirectToRoute('app_prestation_show', ['id' => $prestation->getId()]);
         }
 
         return $this->render('prestation/show.html.twig', [
@@ -143,7 +143,6 @@ class PrestationController extends AbstractController
     public function delete(Prestation $prestation, Request $request): RedirectResponse
     {
         if ($this->isCsrfTokenValid('delete' . $prestation->getId(), $request->get('_token'))) {
-
             $this->em->remove($prestation);
             $this->em->flush();
             $this->addFlash('success', " La prestation à bien été supprimer avec succès");

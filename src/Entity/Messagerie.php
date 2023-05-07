@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\MessagerieRepository;
@@ -13,6 +15,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 class Messagerie
 {
     use TimestampableEntity;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

@@ -10,6 +10,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
+
 /**
  * @extends ServiceEntityRepository<Prestation>
  *
@@ -21,10 +22,9 @@ use Knp\Component\Pager\PaginatorInterface;
 class PrestationRepository extends ServiceEntityRepository
 {
     public function __construct(
-       ManagerRegistry $registry,
+        ManagerRegistry $registry,
         private readonly PaginatorInterface $paginationInterface
-    )
-    {
+    ) {
         parent::__construct($registry, Prestation::class);
     }
 

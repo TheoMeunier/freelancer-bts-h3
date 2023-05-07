@@ -18,8 +18,7 @@ class AppFixtures extends Fixture
 {
     public function __construct(
         private readonly UserPasswordHasherInterface $passwordHasher
-    )
-    {
+    ) {
     }
 
     public function load(ObjectManager $manager): void
@@ -32,7 +31,7 @@ class AppFixtures extends Fixture
             $categories->setName($faker->name);
 
             $manager->persist($categories);
-            $this->addReference('category_'.$t, $categories);
+            $this->addReference('category_' . $t, $categories);
         }
 
         for ($i = 0; $i < 50; $i++) {
