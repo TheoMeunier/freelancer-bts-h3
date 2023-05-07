@@ -20,6 +20,9 @@
             <li class="nav-item">
                 <a class="nav-link {% if app.request.get('_route') == 'app_profile_commande' %} active {% endif %}" href="{{ path('app_profile_commande') }}">Commandes</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link {% if app.request.get('_route') == 'app_profile_messagerie' %} active {% endif %}" href="{{ path('app_profile_messagerie') }}">Messagerie</a>
+            </li>
         </ul>
     </div>
 

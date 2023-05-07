@@ -79,21 +79,11 @@
                 <button class="btn btn-primary" id="btn_contact_prestation">Me contacter</button>
             </div>
 
-            <div class="contact mt-5 d-none" id="form_contact_prestation">{{ form_start(form) }}
-                <div class="row">
-                    <div class="col-md-6">
-                        {{ form_row(form.first_name) }}
-                    </div>
-                    <div class="col-md-6">
-                        {{ form_row(form.last_name) }}
-                    </div>
-                </div>
-                <div>
-                    {{ form_row(form.email) }}
-                </div>
+            <div class="contact mt-5 d-none" id="form_contact_prestation">
+                {{ form_start(form) }}
 
                 <div>
-                    {{ form_row(form.content) }}
+                    {{ form_row(form.title) }}
                 </div>
 
                 <button type="submit" class="btn btn-primary">Envoyer</button>

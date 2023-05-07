@@ -56,6 +56,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: PrestationComments::class)]
     private Collection $prestation_comments;
 
+    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Messages::class)]
+    private Collection $messages;
+
+    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Messageries::class)]
+    private Collection $messageries;
+
     public function __construct()
     {
         $this->createdAt = new DateTime();
@@ -63,6 +69,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         $this->prestations = new ArrayCollection();
         $this->likes = new ArrayCollection();
         $this->prestation_comments = new ArrayCollection();
+        $this->messages = new ArrayCollection();
+        $this->messageries = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -292,6 +300,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
             // set the owning side to null (unless already changed)
             if ($prestationComment->getUser() === $this) {
                 $prestationComment->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Messages>
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Messages $message): self
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages->add($message);
+            $message->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Messages $message): self
+    {
+        if ($this->messages->removeElement($message)) {
+            // set the owning side to null (unless already changed)
+            if ($message->getClient() === $this) {
+                $message->setClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Messageries>
+     */
+    public function getMessageries(): Collection
+    {
+        return $this->messageries;
+    }
+
+    public function addMessagery(Messageries $messagery): self
+    {
+        if (!$this->messageries->contains($messagery)) {
+            $this->messageries->add($messagery);
+            $messagery->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessagery(Messageries $messagery): self
+    {
+        if ($this->messageries->removeElement($messagery)) {
+            // set the owning side to null (unless already changed)
+            if ($messagery->getClient() === $this) {
+                $messagery->setClient(null);
             }
         }
 

@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\Messageries;
 use App\Entity\PrestationComments;
 use App\Entity\Contact;
 use App\Entity\Prestation;
 use App\Entity\User;
+use App\Form\MessagerieType;
+use App\Form\MessagesType;
 use App\Form\PrestationCommentsType;
 use App\Form\ContactType;
 use App\Form\PrestationType;
@@ -15,6 +18,7 @@ use App\Repository\PrestationRepository;
 use App\Services\FileServiceInterface;
 use App\Services\MailerServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use http\Message;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -66,19 +70,25 @@ class PrestationController extends AbstractController
     {
         $prestation = $this->repository->find($id);
 
-        $contact = new Contact();
-        $form = $this->createForm(ContactType::class, $contact);
+        $messagerie = new Messageries();
+        $form = $this->createForm(MessagerieType::class, $messagerie);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $messagerie->setClient($this->getUser());
+            $messagerie->setPrestataire($prestation->getUser());
+
             $this->mailerService->send(
                 $this->getParameter('email_noreply'),
                 $this->getParameter('email'),
                 'Contact Prestation',
                 'email/contact/contact.html.twig',
                 'email/contact/contact.txt.twig',
-                ['contact' => $contact],
+                ['contact' => $messagerie],
             );
+
+            $this->em->persist($messagerie);
+            $this->em->flush();
 
             $this->addFlash('success', 'Send Mail');
 

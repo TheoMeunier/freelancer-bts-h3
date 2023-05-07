@@ -1,0 +1,26 @@
+{% extends 'profile/base.html.twig' %}
+
+{% block presation %}
+    <h1>Mes Messages</h1>
+
+    <div>
+        {% if app.user.messageries|length >= 0 %}
+            {% for messagerie in app.user.messageries %}
+                <div class="card">
+                    <div class="card-header">
+                        {{ messagerie.client.name }}
+                    </div>
+                    <div class="card-body">
+                        {{ messagerie.title }}
+
+                        <div class="d-flex justify-content-end">
+                            <a href="{{ path('app_profile_messagerie_show', {id: messagerie.id}) }}" class="btn btn-primary">Voir</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-center">Vous n'avez pas de messages </p>
+        {% endif %}
+    </div>
+{% endblock %}

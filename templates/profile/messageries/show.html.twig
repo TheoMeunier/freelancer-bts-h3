@@ -1,0 +1,32 @@
+{% extends 'profile/base.html.twig' %}
+
+{% block presation %}
+    <div class="text-center">
+        <h3>Lancer la discution</h3>
+        <p>{{ messagerie.title }}</p>
+    </div>
+
+    <div>
+        {% for message in messagerie.messages %}
+            <div class="card">
+                <div class="card-header">
+                    Théo Meunier
+                </div>
+
+                <div class="card-body">
+                    {{ message.content }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div>
+        {{ form_start(form) }}
+        {{ form_row(form.content) }}
+
+        <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-primary">Envoyer</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
