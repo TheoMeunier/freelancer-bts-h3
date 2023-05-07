@@ -56,11 +56,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: PrestationComments::class)]
     private Collection $prestation_comments;
 
-    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Messages::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Messagerie::class)]
+    private Collection $messageries;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Message::class)]
     private Collection $messages;
 
-    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Messageries::class)]
-    private Collection $messageries;
+    #[ORM\OneToMany(mappedBy: 'seeder', targetEntity: Messagerie::class, orphanRemoval: true)]
+    private Collection $messageries_seeder;
 
     public function __construct()
     {
@@ -69,8 +72,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         $this->prestations = new ArrayCollection();
         $this->likes = new ArrayCollection();
         $this->prestation_comments = new ArrayCollection();
-        $this->messages = new ArrayCollection();
         $this->messageries = new ArrayCollection();
+        $this->messageries_seeder = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -307,29 +310,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     }
 
     /**
-     * @return Collection<int, Messages>
+     * @return Collection<int, Messagerie>
      */
-    public function getMessages(): Collection
+    public function getMessageries(): Collection
     {
-        return $this->messages;
+        return $this->messageries;
     }
 
-    public function addMessage(Messages $message): self
+    public function addMessagery(Messagerie $messagery): self
     {
-        if (!$this->messages->contains($message)) {
-            $this->messages->add($message);
-            $message->setClient($this);
+        if (!$this->messageries->contains($messagery)) {
+            $this->messageries->add($messagery);
+            $messagery->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeMessage(Messages $message): self
+    public function removeMessagery(Messagerie $messagery): self
     {
-        if ($this->messages->removeElement($message)) {
+        if ($this->messageries->removeElement($messagery)) {
             // set the owning side to null (unless already changed)
-            if ($message->getClient() === $this) {
-                $message->setClient(null);
+            if ($messagery->getUser() === $this) {
+                $messagery->setUser(null);
             }
         }
 
@@ -337,29 +340,59 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     }
 
     /**
-     * @return Collection<int, Messageries>
+     * @return Collection<int, Message>
      */
-    public function getMessageries(): Collection
+    public function getMessages(): Collection
     {
-        return $this->messageries;
+        return $this->messages;
     }
 
-    public function addMessagery(Messageries $messagery): self
+    public function addMessage(Message $message): self
     {
-        if (!$this->messageries->contains($messagery)) {
-            $this->messageries->add($messagery);
-            $messagery->setClient($this);
+        if (!$this->messages->contains($message)) {
+            $this->messages->add($message);
+            $message->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeMessagery(Messageries $messagery): self
+    public function removeMessage(Message $message): self
     {
-        if ($this->messageries->removeElement($messagery)) {
+        if ($this->messages->removeElement($message)) {
             // set the owning side to null (unless already changed)
-            if ($messagery->getClient() === $this) {
-                $messagery->setClient(null);
+            if ($message->getUser() === $this) {
+                $message->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Messagerie>
+     */
+    public function getMessageriesSeeder(): Collection
+    {
+        return $this->messageries_seeder;
+    }
+
+    public function addMessageriesSeeder(Messagerie $messageriesSeeder): self
+    {
+        if (!$this->messageries_seeder->contains($messageriesSeeder)) {
+            $this->messageries_seeder->add($messageriesSeeder);
+            $messageriesSeeder->setSeeder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessageriesSeeder(Messagerie $messageriesSeeder): self
+    {
+        if ($this->messageries_seeder->removeElement($messageriesSeeder)) {
+            // set the owning side to null (unless already changed)
+            if ($messageriesSeeder->getSeeder() === $this) {
+                $messageriesSeeder->setSeeder(null);
             }
         }
 

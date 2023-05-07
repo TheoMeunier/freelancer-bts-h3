@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\MessagesRepository;
+use App\Repository\MessageRepository;
 use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
-#[ORM\Entity(repositoryClass: MessagesRepository::class)]
-class Messages
+#[ORM\Entity(repositoryClass: MessageRepository::class)]
+class Message
 {
     use TimestampableEntity;
 
@@ -22,13 +22,10 @@ class Messages
     private ?string $content = null;
 
     #[ORM\ManyToOne(inversedBy: 'messages')]
-    private ?User $client = null;
+    private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'messages')]
-    private ?User $prestataire = null;
-
-    #[ORM\ManyToOne(inversedBy: 'messages')]
-    private ?Messageries $messageries = null;
+    private ?Messagerie $messagerie = null;
 
     public function __construct()
     {
@@ -53,38 +50,26 @@ class Messages
         return $this;
     }
 
-    public function getClient(): ?User
+    public function getUser(): ?User
     {
-        return $this->client;
+        return $this->user;
     }
 
-    public function setClient(?User $client): self
+    public function setUser(?User $user): self
     {
-        $this->client = $client;
+        $this->user = $user;
 
         return $this;
     }
 
-    public function getPrestataire(): ?User
+    public function getMessagerie(): ?Messagerie
     {
-        return $this->prestataire;
+        return $this->messagerie;
     }
 
-    public function setPrestataire(?User $prestataire): self
+    public function setMessagerie(?Messagerie $messagerie): self
     {
-        $this->prestataire = $prestataire;
-
-        return $this;
-    }
-
-    public function getMessageries(): ?Messageries
-    {
-        return $this->messageries;
-    }
-
-    public function setMessageries(?Messageries $messageries): self
-    {
-        $this->messageries = $messageries;
+        $this->messagerie = $messagerie;
 
         return $this;
     }

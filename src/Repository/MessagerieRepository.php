@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Messagerie;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,6 +38,15 @@ class MessagerieRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function getMessagerisUser(User $user)
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.user = :user OR m.seeder = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**

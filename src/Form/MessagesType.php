@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Message;
 use App\Entity\Messages;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -20,7 +21,7 @@ class MessagesType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Messages::class,
+            'data_class' => Message::class,
         ]);
     }
 }

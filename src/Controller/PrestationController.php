@@ -4,27 +4,22 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Messageries;
+use App\Entity\Messagerie;
 use App\Entity\PrestationComments;
-use App\Entity\Contact;
 use App\Entity\Prestation;
 use App\Entity\User;
 use App\Form\MessagerieType;
-use App\Form\MessagesType;
 use App\Form\PrestationCommentsType;
-use App\Form\ContactType;
 use App\Form\PrestationType;
 use App\Repository\PrestationRepository;
 use App\Services\FileServiceInterface;
 use App\Services\MailerServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use http\Message;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use DateTime;
 
 class PrestationController extends AbstractController
 {
@@ -70,13 +65,13 @@ class PrestationController extends AbstractController
     {
         $prestation = $this->repository->find($id);
 
-        $messagerie = new Messageries();
+        $messagerie = new Messagerie();
         $form = $this->createForm(MessagerieType::class, $messagerie);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $messagerie->setClient($this->getUser());
-            $messagerie->setPrestataire($prestation->getUser());
+            $messagerie->setUser($prestation->getUser());
+            $messagerie->setSeeder($this->getUser());
 
             $this->mailerService->send(
                 $this->getParameter('email_noreply'),
