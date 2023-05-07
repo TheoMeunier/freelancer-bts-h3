@@ -24,11 +24,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class PrestationController extends AbstractController
 {
     public function __construct(
-        private PrestationRepository $repository,
-        private EntityManagerInterface $em,
-        private FileServiceInterface $fileService,
-        private MailerServiceInterface $mailerService,
-        private string $uploadDirectory
+        private readonly PrestationRepository   $repository,
+        private readonly EntityManagerInterface $em,
+        private readonly FileServiceInterface   $fileService,
+        private readonly MailerServiceInterface $mailerService,
+        private readonly string $uploadDirectory
     ) {
     }
 

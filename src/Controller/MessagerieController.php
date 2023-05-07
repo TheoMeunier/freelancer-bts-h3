@@ -26,7 +26,9 @@ class MessagerieController extends AbstractController
     #[Route('/profile/messagerie', name: 'app_profile_messagerie')]
     public function index(): Response
     {
-        $messageries = $this->repository->getMessageriesByUser($this->getUser() instanceof User);
+        /** @var User $user */
+        $user = $this->getUser();
+        $messageries = $this->repository->getMessageriesByUser($user);
 
         return $this->render('profile/messageries/index.html.twig', [
             'messageries' => $messageries,

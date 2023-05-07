@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\InformationUser;
+use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use http\Client\Curl\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,8 +18,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProfileController extends AbstractController
 {
     public function __construct(
-        private UserRepository $repository,
-        private EntityManagerInterface $em
+        private readonly UserRepository $repository,
+        private readonly EntityManagerInterface $em
     ) {
     }
 
@@ -97,7 +97,7 @@ class ProfileController extends AbstractController
             $password = $request->get('password') === $request->get('confirmation');
 
             if ($request->get('password') === $request->get('confirm-password')) {
-                $this->getAuthUser()->setPassword($hasher->hashPassword($this->getUser(), $password));
+                $this->getAuthUser()->setPassword($hasher->hashPassword($this->getAuthUser(), $password));
 
                 $this->em->persist($this->getAuthUser());
                 $this->em->flush();
@@ -108,12 +108,10 @@ class ProfileController extends AbstractController
         return $this->redirectToRoute('app_profile');
     }
 
-    private function getAuthUser(): ?\App\Entity\User
+    private function getAuthUser(): User
     {
-        /** @var User $userId */
-        $userId = $this->getUser();
-        $user = $this->repository->find($userId);
-
-        return $user;
+        /** @var User $user */
+        $user = $this->getUser();
+        return $this->repository->find($user);
     }
 }

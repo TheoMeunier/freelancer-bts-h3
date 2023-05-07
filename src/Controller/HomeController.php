@@ -16,8 +16,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     public function __construct(
-        private PrestationRepository $repository,
-        private PaginatorInterface $paginator
+        private readonly PrestationRepository $repository,
+        private readonly PaginatorInterface $paginator
     ) {
     }
 
