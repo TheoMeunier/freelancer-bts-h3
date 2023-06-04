@@ -8,9 +8,10 @@ use App\Repository\CommentsRepository;
 use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use EasyCorp\Bundle\EasyAdminBundle\Config\ActionConfig;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: CommentsRepository::class)]
 class PrestationComments
@@ -23,6 +24,8 @@ class PrestationComments
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 7)]
     private ?string $content = null;
 
     #[ORM\ManyToOne(inversedBy: 'prestation_comments')]

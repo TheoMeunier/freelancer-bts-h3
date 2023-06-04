@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PrestationRepository::class)]
 class Prestation
@@ -22,27 +23,41 @@ class Prestation
     private int $id;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private string $title;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 10)]
     private string $description;
 
     #[ORM\ManyToOne(inversedBy: 'prestations')]
+    #[Assert\NotBlank]
     private User $user;
 
     #[ORM\OneToMany(mappedBy: 'prestation', targetEntity: Like::class)]
     private Collection $likes;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 10)]
     private string $content;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\File(
+        maxSize: '1024k',
+        extensions: ['png', 'jpeg', 'svg'],
+    )]
     private string $image;
 
     #[ORM\Column]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'integer',)]
     private ?int $price = null;
 
     #[ORM\ManyToMany(targetEntity: Category::class, mappedBy: 'prestations')]
+    #[Assert\NotBlank]
     private Collection $categories;
 
     #[ORM\OneToMany(mappedBy: 'prestation', targetEntity: PrestationComments::class, cascade: ['persist', 'remove'])]
