@@ -32,7 +32,6 @@ class Prestation
     private string $description;
 
     #[ORM\ManyToOne(inversedBy: 'prestations')]
-    #[Assert\NotBlank]
     private User $user;
 
     #[ORM\OneToMany(mappedBy: 'prestation', targetEntity: Like::class)]
@@ -44,7 +43,6 @@ class Prestation
     private string $content;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank]
     #[Assert\File(
         maxSize: '1024k',
         extensions: ['png', 'jpeg', 'svg'],
